@@ -14,6 +14,10 @@ class ContactsTableViewController: UITableViewController {
         
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let moveButton = UIBarButtonItem(barButtonSystemItem: .Edit, target: self, action: Selector("toggleEdit"))
+        self.navigationItem.leftBarButtonItem = moveButton
+        
         let jenny = Contact(phoneNumber: "867-5309")
         let rich = Contact(name: "Rich", phoneNumber: "888-888-8888")
         let mindy = Contact(name: "Mindy")
@@ -26,6 +30,10 @@ class ContactsTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+    }
+    
+    func toggleEdit() {
+        self.tableView.setEditing(!self.tableView.editing, animated: true)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -51,6 +59,11 @@ class ContactsTableViewController: UITableViewController {
         // Return the number of rows in the section.
         return self.contacts.count
     }
+    
+    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
+        let contactMoving = self.contacts.removeAtIndex(fromIndexPath.row)
+        self.contacts.insert(contactMoving, atIndex: toIndexPath.row)
+    }
 
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -70,7 +83,29 @@ class ContactsTableViewController: UITableViewController {
 
     }
 
+    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+    
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == .Delete {
+            self.contacts.removeAtIndex(indexPath.row)
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+        }
+    }
 
+    override func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
+        if tableView.editing {
+            return .None
+        } else {
+            return .Delete
+        }
+    }
+    
+    override func tableView(tableView: UITableView, shouldIndentWhileEditingRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return false
+    }
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
