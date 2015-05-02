@@ -36,8 +36,10 @@ class ContactsTableViewController: UITableViewController {
         self.tableView.setEditing(!self.tableView.editing, animated: true)
         if self.tableView.editing == true {
         let moveButton = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: Selector("toggleEdit"))
+            self.navigationItem.leftBarButtonItem = moveButton
         } else {
             let moveButton = UIBarButtonItem(barButtonSystemItem: .Edit, target: self, action: Selector("toggleEdit"))
+            self.navigationItem.leftBarButtonItem = moveButton
     }
     }
     
