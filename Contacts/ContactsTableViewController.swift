@@ -34,6 +34,11 @@ class ContactsTableViewController: UITableViewController {
     
     func toggleEdit() {
         self.tableView.setEditing(!self.tableView.editing, animated: true)
+        if self.tableView.editing == true {
+        let moveButton = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: Selector("toggleEdit"))
+        } else {
+            let moveButton = UIBarButtonItem(barButtonSystemItem: .Edit, target: self, action: Selector("toggleEdit"))
+    }
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -59,11 +64,6 @@ class ContactsTableViewController: UITableViewController {
         // Return the number of rows in the section.
         return self.contacts.count
     }
-    
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-        let contactMoving = self.contacts.removeAtIndex(fromIndexPath.row)
-        self.contacts.insert(contactMoving, atIndex: toIndexPath.row)
-    }
 
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -81,6 +81,11 @@ class ContactsTableViewController: UITableViewController {
         
         // Configure the cell...
 
+    }
+    
+    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
+        let contactMoving = self.contacts.removeAtIndex(fromIndexPath.row)
+        self.contacts.insert(contactMoving, atIndex: toIndexPath.row)
     }
 
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
