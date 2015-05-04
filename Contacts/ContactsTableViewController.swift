@@ -25,11 +25,26 @@ class ContactsTableViewController: UITableViewController {
         self.contacts.append(jenny)
         self.contacts.append(rich)
         self.contacts.append(mindy)
+        
+        let addButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: Selector("addContact"))
+        navigationItem.rightBarButtonItem = addButton
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
+    
+    func addContact() {
+        let newContact = Contact(name: "New Contact")
+        self.contacts.append(newContact)
+        let newIndexPath = NSIndexPath(forRow: self.contacts.count - 1, inSection: 0)
+        self.tableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .Automatic)
     }
     
     func toggleEdit() {
