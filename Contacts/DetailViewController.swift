@@ -35,7 +35,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
         if textField == self.nameField {
             self.contact?.name = textField.text
         } else if textField == self.phoneNumberField {
-            self.contact?.phoneNumber == textField.text
+            self.contact?.phoneNumber = textField.text
         }
     }
 
